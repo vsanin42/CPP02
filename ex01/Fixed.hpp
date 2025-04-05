@@ -6,7 +6,7 @@
 /*   By: vsanin <vsanin@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:16:13 by vsanin            #+#    #+#             */
-/*   Updated: 2025/04/04 19:07:18 by vsanin           ###   ########.fr       */
+/*   Updated: 2025/04/05 16:06:34 by vsanin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ class Fixed
 		Fixed();
 		Fixed(const Fixed& ref);
 		~Fixed();
-		Fixed &operator=(const Fixed& ref);
+		Fixed& operator=(const Fixed& ref);
 		int getRawBits(void) const;
 		void setRawBits(int const raw);
 
