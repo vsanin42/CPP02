@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Fixed.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsanin <vsanin@student.42prague.com>       +#+  +:+       +#+        */
+/*   By: vsanin <vsanin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:15:59 by vsanin            #+#    #+#             */
-/*   Updated: 2025/04/05 16:51:48 by vsanin           ###   ########.fr       */
+/*   Updated: 2025/04/07 16:47:31 by vsanin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ Fixed& Fixed::operator=(const Fixed& ref)
 	std::cout << "Copy assignment operator called" << "\n";
 	if (this != &ref)
 		value = ref.getRawBits();
-	return (*this);
+	return *this;
 }
 
-int Fixed::getRawBits(void) const { return (value); }
+int Fixed::getRawBits(void) const { return value; }
 void Fixed::setRawBits(int const raw) { value = raw; }
 
 Fixed::Fixed(const int inum)
@@ -49,16 +49,16 @@ Fixed::Fixed(const float fnum)
 
 int Fixed::toInt(void) const
 {
-	return (value >> fraction_bits);
+	return value >> fraction_bits;
 }
 
 float Fixed::toFloat(void) const
 {
-	return ((float)value / (float)(1 << fraction_bits));
+	return (float)value / (float)(1 << fraction_bits);
 }
 
 std::ostream& operator<<(std::ostream& stream, const Fixed& num)
 {
 	stream << num.toFloat();
-	return (stream);
+	return stream;
 }

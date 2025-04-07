@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Fixed.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsanin <vsanin@student.42prague.com>       +#+  +:+       +#+        */
+/*   By: vsanin <vsanin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:15:59 by vsanin            #+#    #+#             */
-/*   Updated: 2025/04/05 16:07:22 by vsanin           ###   ########.fr       */
+/*   Updated: 2025/04/07 16:47:56 by vsanin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ Fixed& Fixed::operator=(const Fixed& ref)
 	std::cout << "Copy assignment operator called" << "\n";
 	if (this != &ref)
 		value = ref.getRawBits();
-	return (*this);
+	return *this;
 }
 
 int Fixed::getRawBits(void) const
 {
 	std::cout << "getRawBits member function called" << "\n"; 
-	return (value);
+	return value;
 }
 void Fixed::setRawBits(int const raw) { value = raw; }
