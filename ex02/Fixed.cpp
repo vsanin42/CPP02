@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Fixed.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsanin <vsanin@student.42prague.com>       +#+  +:+       +#+        */
+/*   By: vsanin <vsanin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:15:59 by vsanin            #+#    #+#             */
-/*   Updated: 2025/04/05 18:32:42 by vsanin           ###   ########.fr       */
+/*   Updated: 2025/04/07 20:52:45 by vsanin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,24 @@
 #include <cmath>
 #include <ostream>
 
-Fixed::Fixed() : value(0) { std::cout << "Default constructor called" << "\n"; }
-Fixed::~Fixed() { std::cout << "Destructor called" << "\n"; }
+Fixed::Fixed() : value(0) {}
+Fixed::~Fixed() {}
 
 Fixed::Fixed(const Fixed& ref)
 {
-	std::cout << "Copy constructor called" << "\n";
+	// std::cout << "Copy constructor called" << "\n";
 	*this = ref;
 }
 
 Fixed& Fixed::operator=(const Fixed& ref)
 {
-	std::cout << "Copy assignment operator called" << "\n";
+	// std::cout << "Copy assignment operator called" << "\n";
 	if (this != &ref)
 		value = ref.getRawBits();
-	return (*this);
+	return *this;
 }
 
-int Fixed::getRawBits(void) const { return (value); }
+int Fixed::getRawBits(void) const { return value; }
 void Fixed::setRawBits(int const raw) { value = raw; }
 
 /* -------------------------------------------------------------------------- */
@@ -41,62 +41,107 @@ void Fixed::setRawBits(int const raw) { value = raw; }
 
 Fixed::Fixed(const int inum)
 {
-	std::cout << "Int constructor called" << "\n";
+	// std::cout << "Int constructor called" << "\n";
 	value = inum << fraction_bits;
 }
 
 Fixed::Fixed(const float fnum)
 {
-	std::cout << "Float constructor called" << "\n";
+	// std::cout << "Float constructor called" << "\n";
 	value = roundf(fnum * (1 << fraction_bits));
 }
 
 int Fixed::toInt(void) const
 {
-	return (value >> fraction_bits);
+	return value >> fraction_bits;
 }
 
 float Fixed::toFloat(void) const
 {
-	return ((float)value / (float)(1 << fraction_bits));
+	return (float)value / (float)(1 << fraction_bits);
 }
 
 std::ostream& operator<<(std::ostream& stream, const Fixed& num)
 {
 	stream << num.toFloat();
-	return (stream);
+	return stream;
 }
 
 /* -------------------------------------------------------------------------- */
 /*                                    ex02                                    */
 /* -------------------------------------------------------------------------- */
 
-bool Fixed::operator==(const Fixed& ref) const
+bool Fixed::operator<(const Fixed& ref) const { return this->value < ref.value; }
+
+bool Fixed::operator>(const Fixed& ref) const { return !((*this) < ref) && !((*this) == ref); }
+
+bool Fixed::operator==(const Fixed& ref) const { return this->value == ref.value; }
+
+bool Fixed::operator!=(const Fixed& ref) const { return !(*this == ref); }
+
+bool Fixed::operator<=(const Fixed& ref) const { return (*this) < ref || (*this) == ref; }
+
+bool Fixed::operator>=(const Fixed& ref) const { return !((*this) < ref); }
+
+Fixed Fixed::operator+(const Fixed& ref) const { return Fixed(this->value + ref.value); }
+
+Fixed Fixed::operator-(const Fixed& ref) const { return Fixed(this->value - ref.value); }
+
+Fixed Fixed::operator*(const Fixed& ref) const
 {
-	return ((*this).getRawBits() == ref.getRawBits());
+	int64_t this_val = static_cast<int64_t>(this->value);
+	int64_t ref_val = static_cast<int64_t>(ref.value);
+	int product = ((this_val * ref_val) + (1LL << (fraction_bits - 1))) >> fraction_bits;
+	
+	Fixed res;
+	res.setRawBits(product);
+	return res;
 }
 
-bool Fixed::operator!=(const Fixed& ref) const
+Fixed Fixed::operator/(const Fixed& ref) const
 {
-	return (!(*this == ref));
+	if (ref.value == 0)
+		throw std::domain_error("Division by zero.");
+	int64_t this_val = static_cast<int64_t>(this->value);
+	int64_t ref_val = static_cast<int64_t>(ref.value);
+	int quotient = ((this_val << fraction_bits) + (ref_val / 2)) / ref_val;
+
+	Fixed res;
+	res.setRawBits(quotient);
+	return res;
 }
 
-bool Fixed::operator<(const Fixed& ref) const
+Fixed Fixed::operator++(int)
 {
-	return ((*this).getRawBits() < ref.getRawBits());
+	Fixed old = *this;
+	operator++();
+	return old;
 }
 
-bool Fixed::operator>(const Fixed& ref) const
+Fixed Fixed::operator--(int)
 {
-	return (!((*this) < ref) && !((*this) == ref));
+	Fixed old = *this;
+	operator--();
+	return old;
 }
 
-bool Fixed::operator<=(const Fixed& ref) const
+Fixed& Fixed::operator++()
 {
-	return ((*this) < ref || (*this) == ref);
+	this->value += 1;
+	return *this;
 }
 
-bool Fixed::operator>=(const Fixed& ref) const
+Fixed& Fixed::operator--()
 {
-	return (!((*this) < ref));
+	this->value -= 1;
+	return *this;
 }
+
+Fixed& Fixed::min(Fixed& a, Fixed& b) { return a <= b ? a : b; }
+
+const Fixed& Fixed::min(const Fixed& a, const Fixed& b) { return a <= b ? a : b; }
+
+Fixed& Fixed::max(Fixed& a, Fixed& b) { return a >= b ? a : b; }
+
+const Fixed& Fixed::max(const Fixed& a, const Fixed& b) { return a >= b ? a : b; }
+
