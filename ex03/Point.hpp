@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Point.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsanin <vsanin@student.42prague.com>       +#+  +:+       +#+        */
+/*   By: vsanin <vsanin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 14:47:12 by vsanin            #+#    #+#             */
-/*   Updated: 2025/04/09 17:26:46 by vsanin           ###   ########.fr       */
+/*   Updated: 2025/04/11 11:00:51 by vsanin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ class Point
 	private:
 		const Fixed x;
 		const Fixed y;
-		// todo?
 	public:
 		Point();
 		Point(const float new_x, const float new_y);
