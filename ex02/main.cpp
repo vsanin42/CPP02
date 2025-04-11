@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsanin <vsanin@student.42prague.com>       +#+  +:+       +#+        */
+/*   By: vsanin <vsanin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 21:24:01 by vsanin            #+#    #+#             */
-/*   Updated: 2025/04/09 13:49:58 by vsanin           ###   ########.fr       */
+/*   Updated: 2025/04/11 13:04:57 by vsanin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,12 +211,6 @@ int main(void)
 
 		std::cout << "(a--): " << a-- << std::endl;
 		std::cout << "a: " << a << "\n" << std::endl;
-		
-		std::cout << "++a++: " << ++a++ << std::endl;
-		std::cout << "a: " << a << "\n" << std::endl;
-
-		std::cout << "--a--: " << --a-- << std::endl;
-		std::cout << "a: " << a << std::endl;
 
 		b = Fixed(1);
 		std::cout << "b: " << b << "\n" << std::endl;
@@ -235,6 +229,10 @@ int main(void)
 		Fixed a(-3);
 		Fixed b(3.3f);
 		Fixed c(-3);
+
+		std::cout << "a: " << a << std::endl;
+		std::cout << "b: " << b << std::endl;
+		std::cout << "c: " << c << "\n" << std::endl;
 
 		std::cout << "&a: " << &a << std::endl;
 		std::cout << "&c: " << &c << "\n" << std::endl;
